@@ -3,7 +3,7 @@
 #include "raylib.h"
 
 #include "config.h"
-#include "Game/GameInitialization.h"
+#include "Game/GameSupport_Lib.h"
 
 // Include the Gizmos Features if game should start in Debug mode
 #ifdef GAME_DEBUG
