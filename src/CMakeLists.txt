@@ -2,13 +2,13 @@
 
 include(../cmake/raylib.cmake)
 
-project(game VERSION 0.1 LANGUAGES CXX)
+project(SlugRunner VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp Character/Player.cpp Character/Player.h Utility/Sprite.cpp Utility/Sprite.h LevelBuilding/Ground.cpp LevelBuilding/Ground.h LevelBuilding/Background.cpp LevelBuilding/Background.h Utility/AnimationHandler.h Utility/Enums.h Utility/Debug.h Utility/AnimationHandler.cpp Game/GameInitialization.h)
 
 # Add config.h.in file
 configure_file(config.h.in config.h)

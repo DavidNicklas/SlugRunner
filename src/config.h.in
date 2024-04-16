@@ -10,5 +10,8 @@ namespace Game {
     inline constexpr int ScreenWidth = 960;
     inline constexpr int ScreenHeight = 540;
 
+    inline constexpr int GroundHeight = 470;
+
     //#define GAME_START_FULLSCREEN
+    #define GAME_DEBUG
 }

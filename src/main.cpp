@@ -3,44 +3,57 @@
 #include "raylib.h"
 
 #include "config.h"
+#include "Game/GameInitialization.h"
 
-int main() {
-    // Raylib initialization
-    // Project name, screen size, fullscreen mode etc. can be specified in the config.h.in file
-    InitWindow(Game::ScreenWidth, Game::ScreenHeight, Game::PROJECT_NAME);
-    SetTargetFPS(60);
-
-#ifdef GAME_START_FULLSCREEN
-    ToggleFullscreen();
+// Include the Gizmos Features if game should start in Debug mode
+#ifdef GAME_DEBUG
+#include "Utility/Debug.h"
 #endif
 
-    // Your own initialization code here
-    // ...
-    // ...
-    Texture2D myTexture = LoadTexture("assets/graphics/testimage.png");
+#include "LevelBuilding/Ground.h"
+#include "Character/Player.h"
+#include "LevelBuilding/Background.h"
+
+int main() {
+    InitGameWindow();
+
+    // Those two are relevant to drawing and code-cleanliness
+    float renderScale{};
+    Rectangle renderRec{};
+    RenderTexture2D canvas = LoadRenderTexture(Game::ScreenWidth, Game::ScreenHeight);
+
+    Player player;
+    Ground ground;
+    Background background;
+    Texture2D burpy = LoadTexture("assets/graphics/Character/Burpy.png");
 
     // Main game loop
     while (!WindowShouldClose()) // Detect window close button or ESC key
     {
-        // Updates that are made by frame are coded here
-        // ...
-        // ...
+        player.Update();
+        ground.MoveToLeft();
 
         BeginDrawing();
-            // You can draw on the screen between BeginDrawing() and EndDrawing()
-            // ...
-            // ...
+        BeginTextureMode(canvas);
+        {
             ClearBackground(WHITE);
-            DrawText("Hello, world!", 10, 10, 30, LIGHTGRAY);
-            DrawTexture(myTexture, 10, 100, WHITE);
+            background.Draw();
+            //ground.Draw();
+            player.Draw();
+            DrawTexture(burpy, 200, Game::GroundHeight - burpy.height, WHITE);
+
+#ifdef GAME_DEBUG
+            Gizmos::DrawGizmos();
+#endif
+        }
+
+        EndTextureMode();
+
+        // The following lines put the canvas in the middle of the window and have the negative as black
+        ScaleCanvas(canvas, renderScale, renderRec);
 
         EndDrawing();
     } // Main game loop end
-
-    // De-initialization here
-    // ...
-    // ...
-    UnloadTexture(myTexture);
 
     // Close window and OpenGL context
     CloseWindow();
