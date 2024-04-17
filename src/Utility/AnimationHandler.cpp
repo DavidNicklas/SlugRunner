@@ -14,8 +14,8 @@
  *
  * \return void
  */
-Animation::Animation(Texture2D spriteSheet, int frames, float frameRate)
-: spriteTex(spriteSheet), frames(frames), frameRate(frameRate)
+Animation::Animation(Texture2D spriteSheet, int frames, float frameRate, std::string name)
+: spriteTex(spriteSheet), frames(frames), frameRate(frameRate), name(name)
 {
     frameWidth = (float)spriteSheet.width / (float)this->frames;
     currentFrame = 0;
@@ -25,7 +25,7 @@ Animation::Animation(Texture2D spriteSheet, int frames, float frameRate)
     int recCounter = 0;
     for (int i = 0; i < this->frames; ++i)
     {
-        Rectangle fRec = {recCounter * frameWidth, 0, frameWidth, static_cast<float>(spriteTex.height)};
+        Rectangle fRec = {(float)recCounter * frameWidth, 0, frameWidth, static_cast<float>(spriteTex.height)};
         frameRecs.push_back(fRec);
         recCounter++;
     }
@@ -55,9 +55,21 @@ void Animation::DrawCurrentFrame(Vector2 position, Color tint) const
 // ##################################################################################
 //                               class: Animation Handler
 // ##################################################################################
-void AnimationHandler::PlayAnimation(const Animation& type)
+void AnimationHandler::AddAnimation(const std::string& name, const Animation& anim)
 {
-    currentAnimation = type;
+    animationMap.insert(std::make_pair(name, anim));
+}
+
+void AnimationHandler::PlayAnimation(const std::string& name)
+{
+    if (animationMap.find(name) != animationMap.end())
+    {
+        currentAnimation = animationMap[name];
+    }
+    else
+    {
+        std::cerr << "Animation with name " << name << " not found!" << std::endl;
+    }
 }
 
 // ************************ Update Functions ************************ //
@@ -72,9 +84,4 @@ void AnimationHandler::UpdateFrame()
 void AnimationHandler::DrawAnim(Vector2 position) const
 {
     currentAnimation.DrawCurrentFrame(position);
-}
-
-void AnimationHandler::AddAnimation(const Animation &anim)
-{
-    animations.push_back(anim);
 }

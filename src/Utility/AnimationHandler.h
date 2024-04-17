@@ -8,12 +8,13 @@
 struct Animation
 {
     Animation() = default;
-    Animation(Texture2D spriteSheet, int frames, float frameRate);
+    Animation(Texture2D spriteSheet, int frames, float frameRate, std::string name);
 
     void Update();
     void DrawCurrentFrame(Vector2 position, Color tint = WHITE) const;
 
     Texture2D spriteTex;
+    std::string name;
     std::vector<Rectangle> frameRecs;
 
     int frames;
@@ -30,12 +31,12 @@ class AnimationHandler
 public:
     void UpdateFrame();
     void DrawAnim(Vector2 position) const;
-    void AddAnimation(const Animation& anim);
-    void PlayAnimation(const Animation& type);
+    void AddAnimation(const std::string& name, const Animation& anim);
+    void PlayAnimation(const std::string& name);
 
 private:
-    std::vector<Animation> animations;
     std::vector<Rectangle> frameRecs;
+    std::map<std::string, Animation> animationMap;
 
     Animation currentAnimation;
 };

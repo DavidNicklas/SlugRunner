@@ -1,22 +1,21 @@
 
-#include <iostream>
 #include "Player.h"
 #include "config.h"
 
 Player::Player()
 {
     sprite = new Sprite("assets/graphics/Character/EliShane_Idle.png");
-    position = {50, 300};
+    position = {50, static_cast<float>(Game::GroundHeight - sprite->texture.height)};
     velocityY = 0;
     moveSpeed = 200;
     grounded = false;
 
     // Add all the animations to the animator
-    Animation idleAnim = Animation(sprite->texture, 2, 0.3);
-    animator.AddAnimation(idleAnim);
+    Animation idleAnim = Animation(sprite->texture, 2, 0.3, "idle");
+    animator.AddAnimation(idleAnim.name, idleAnim);
 
     // Play the idle animation at the start of the game
-    animator.PlayAnimation(idleAnim);
+    animator.PlayAnimation(idleAnim.name);
 }
 
 Player::~Player()
@@ -76,8 +75,6 @@ bool Player::IsGrounded() const
 
 void Player::Draw() const
 {
-    //DrawTextureV(sprite->texture, position, WHITE);
-    //DrawTextureRec(sprite->texture, {0, 0, sprite->texture.width / 2, sprite->texture.height}, position, WHITE);
     animator.DrawAnim(position);
 }
 
