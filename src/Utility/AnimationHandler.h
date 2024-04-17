@@ -25,14 +25,14 @@ struct Animation
     float currentTime;          // stores the passed time
 };
 
-
 class AnimationHandler
 {
 public:
-    void UpdateFrame();
-    void DrawAnim(Vector2 position) const;
+    void CreateAnimation(Texture2D spriteSheet, int frames, float frameRate, std::string name);
     void AddAnimation(const std::string& name, const Animation& anim);
     void PlayAnimation(const std::string& name);
+    void UpdateFrame();
+    void DrawAnim(Vector2 position) const;
 
 private:
     std::vector<Rectangle> frameRecs;

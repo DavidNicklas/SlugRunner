@@ -11,11 +11,10 @@ Player::Player()
     grounded = false;
 
     // Add all the animations to the animator
-    Animation idleAnim = Animation(sprite->texture, 2, 0.3, "idle");
-    animator.AddAnimation(idleAnim.name, idleAnim);
+    animator.CreateAnimation(sprite->texture, 2, 0.3, "idle");
 
     // Play the idle animation at the start of the game
-    animator.PlayAnimation(idleAnim.name);
+    animator.PlayAnimation("idle");
 }
 
 Player::~Player()

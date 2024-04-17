@@ -55,6 +55,12 @@ void Animation::DrawCurrentFrame(Vector2 position, Color tint) const
 // ##################################################################################
 //                               class: Animation Handler
 // ##################################################################################
+void AnimationHandler::CreateAnimation(Texture2D spriteSheet, int frames, float frameRate, std::string name)
+{
+    Animation anim = Animation(spriteSheet, frames, frameRate, name);
+    animationMap.insert(std::make_pair(name, anim));
+}
+
 void AnimationHandler::AddAnimation(const std::string& name, const Animation& anim)
 {
     animationMap.insert(std::make_pair(name, anim));
