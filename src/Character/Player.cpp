@@ -5,7 +5,7 @@
 Player::Player()
 {
     sprite = new Sprite("assets/graphics/Character/EliShane_Idle.png");
-    position = {50, static_cast<float>(Game::GroundHeight - sprite->texture.height)};
+    position = {100, Game::GroundHeight};
     velocityY = 0;
     moveSpeed = 200;
     grounded = false;
@@ -29,7 +29,7 @@ void Player::Update()
     position.y += velocityY * GetFrameTime();
 
     // Check if the player is grounded
-    if (!IsGrounded())
+    if (IsGrounded())
     {
         velocityY += gravity * GetFrameTime();
     }
@@ -37,7 +37,7 @@ void Player::Update()
     {
         velocityY = 0;
         grounded = true;
-        position.y = (float)Game::GroundHeight - (float)sprite->texture.height;
+        position.y = Game::GroundHeight;
     }
 
     PlayerInput();
@@ -67,14 +67,19 @@ void Player::PlayerInput()
 
 bool Player::IsGrounded() const
 {
-    return position.y + (float)sprite->texture.height <= Game::GroundHeight;
+    return position.y <= Game::GroundHeight;
 }
 
 // ************************ Draw Functions ************************ //
 
 void Player::Draw() const
 {
-    animator.DrawAnim(position);
+#ifdef GAME_DEBUG
+    DrawCircleV(position, 1, YELLOW);
+#endif
+
+    Vector2 spriteOffset = {position.x, position.y - (float)sprite->texture.height};
+    animator.DrawAnim(spriteOffset);
 }
 
 
