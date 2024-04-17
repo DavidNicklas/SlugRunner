@@ -35,7 +35,6 @@ public:
     void DrawAnim(Vector2 position) const;
 
 private:
-    std::vector<Rectangle> frameRecs;
     std::map<std::string, Animation> animationMap;
 
     Animation currentAnimation;

@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(${PROJECT_NAME} main.cpp Character/Player.cpp Character/Player.h Utility/Sprite.cpp Utility/Sprite.h LevelBuilding/Ground.cpp LevelBuilding/Ground.h LevelBuilding/Background.cpp LevelBuilding/Background.h Utility/AnimationHandler.h Utility/Enums.h Utility/Debug.h Utility/AnimationHandler.cpp Game/GameSupport_Lib.h)
+add_executable(${PROJECT_NAME} main.cpp Character/Player.cpp Character/Player.h Utility/Sprite.cpp Utility/Sprite.h LevelBuilding/Ground.cpp LevelBuilding/Ground.h LevelBuilding/Background.cpp LevelBuilding/Background.h Utility/AnimationHandler.h Utility/Enums.h Utility/Debug.h Utility/AnimationHandler.cpp Game/GameSupport_Lib.h Character/Slug/Slug.cpp Character/Slug/Slug.h Character/Slug/Burpy.cpp Character/Slug/Burpy.h)
 
 # Add config.h.in file
 configure_file(config.h.in config.h)

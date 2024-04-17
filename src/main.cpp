@@ -13,6 +13,7 @@
 #include "LevelBuilding/Ground.h"
 #include "Character/Player.h"
 #include "LevelBuilding/Background.h"
+#include "Character/Slug/Burpy.h"
 
 int main() {
     InitGameWindow();
@@ -25,13 +26,14 @@ int main() {
     Player player;
     Ground ground;
     Background background;
-    Texture2D burpy = LoadTexture("assets/graphics/Character/Burpy.png");
+    Burpy burpy;
 
     // Main game loop
     while (!WindowShouldClose()) // Detect window close button or ESC key
     {
         player.Update();
         ground.MoveToLeft();
+        burpy.Update();
 
         BeginDrawing();
         BeginTextureMode(canvas);
@@ -40,7 +42,7 @@ int main() {
             background.Draw();
             //ground.Draw();
             player.Draw();
-            DrawTexture(burpy, 200, Game::GroundHeight - burpy.height, WHITE);
+            burpy.Draw();
 
 #ifdef GAME_DEBUG
             Gizmos::DrawGizmos();
