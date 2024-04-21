@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include "AnimationHandler.h"
+#include "../Game/GameSupport_Lib.h"
 
 // ##################################################################################
 //                               class: Animation
@@ -93,4 +94,9 @@ void AnimationHandler::UpdateFrame()
 void AnimationHandler::DrawAnim(Vector2 position) const
 {
     currentAnimation.DrawCurrentFrame(position);
+}
+
+bool AnimationHandler::IsPlaying(std::string name) const
+{
+    return currentAnimation.name == name;
 }

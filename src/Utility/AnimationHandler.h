@@ -33,11 +33,10 @@ public:
     void PlayAnimation(const std::string& name);
     void UpdateFrame();
     void DrawAnim(Vector2 position) const;
+    bool IsPlaying(std::string name) const;
 
 private:
     std::map<std::string, Animation> animationMap;
 
     Animation currentAnimation;
 };
-
-//typedef AnimationHandler Animator;

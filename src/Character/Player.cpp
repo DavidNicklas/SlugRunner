@@ -4,22 +4,27 @@
 
 Player::Player()
 {
-    sprite = new Sprite("assets/graphics/Character/EliShane_Idle.png");
+    idleTexLeft = LoadTexture("assets/graphics/Character/EliShane_IdleLeft.png");
+    idleTexRight = LoadTexture("assets/graphics/Character/EliShane_Idle.png");
+
     position = {100, Game::GroundHeight};
     velocityY = 0;
     moveSpeed = 200;
     grounded = false;
+    height = (float)idleTexRight.height;
 
     // Add all the animations to the animator
-    animator.CreateAnimation(sprite->texture, 2, 0.3, "idle");
+    animator.CreateAnimation(idleTexRight, 2, 0.3, "idleRight");
+    animator.CreateAnimation(idleTexLeft, 2, 0.3, "idleLeft");
 
     // Play the idle animation at the start of the game
-    animator.PlayAnimation("idle");
+    animator.PlayAnimation("idleRight");
 }
 
 Player::~Player()
 {
-    delete sprite;
+    UnloadTexture(idleTexLeft);
+    UnloadTexture(idleTexRight);
 }
 
 // ************************ Update Functions ************************ //
@@ -50,10 +55,18 @@ void Player::PlayerInput()
     // Movement
     if (IsKeyDown(KEY_D))
     {
+        if (!animator.IsPlaying("idleRight"))
+        {
+            animator.PlayAnimation("idleRight");
+        }
         position.x += moveSpeed * GetFrameTime();
     }
-    if (IsKeyDown(KEY_A))
+    else if (IsKeyDown(KEY_A))
     {
+        if (!animator.IsPlaying("idleLeft"))
+        {
+            animator.PlayAnimation("idleLeft");
+        }
         position.x -= moveSpeed * GetFrameTime();
     }
 
@@ -78,7 +91,8 @@ void Player::Draw() const
     DrawCircleV(position, 1, YELLOW);
 #endif
 
-    Vector2 spriteOffset = {position.x, position.y - (float)sprite->texture.height};
+    // Offset the sprite so it's drawn from the bottom
+    Vector2 spriteOffset = {position.x, position.y - height};
     animator.DrawAnim(spriteOffset);
 }
 
