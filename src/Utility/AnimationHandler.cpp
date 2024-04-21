@@ -55,6 +55,9 @@ void Animation::DrawCurrentFrame(Vector2 position, Color tint) const
 // ##################################################################################
 //                               class: Animation Handler
 // ##################################################################################
+/**
+ * @brief Creates an animation with the provided parameters and adds it to the animation map.
+ */
 void AnimationHandler::CreateAnimation(Texture2D spriteSheet, int frames, float frameRate, std::string name)
 {
     Animation anim = Animation(spriteSheet, frames, frameRate, name);
