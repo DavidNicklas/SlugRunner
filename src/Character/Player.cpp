@@ -4,8 +4,8 @@
 
 Player::Player()
 {
-    idleTexLeft = LoadTexture("assets/graphics/Character/EliShane_IdleLeft.png");
-    idleTexRight = LoadTexture("assets/graphics/Character/EliShane_Idle.png");
+    idleTexLeft = LoadTexture("assets/graphics/Character/EliShane_IdleL.png");
+    idleTexRight = LoadTexture("assets/graphics/Character/EliShane_IdleR.png");
 
     position = {100, Game::GroundHeight};
     velocityY = 0;
