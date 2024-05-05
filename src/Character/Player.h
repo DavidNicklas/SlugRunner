@@ -21,10 +21,12 @@ public:
 private:
     void PlayerInput();
     bool IsGrounded() const;
+    void DrawInspector() const;
 
     AnimationHandler animator;
 
     bool grounded;
+    float currentMoveSpeed = 0;
     int jumpForce = 700;
     float gravity = 1500;
     float height;
@@ -33,4 +35,8 @@ private:
     Texture2D idleTexRight;
     Texture2D runTexRight;
     Texture2D runTexLeft;
+
+    KeyboardKey lastInputKey;
+
+    void DetermineAnimationState();
 };

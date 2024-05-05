@@ -36,6 +36,7 @@ Player::~Player()
 void Player::Update()
 {
     position.y += velocityY * GetFrameTime();
+    position.x += currentMoveSpeed * GetFrameTime();
 
     // Check if the player is grounded
     if (IsGrounded())
@@ -51,6 +52,7 @@ void Player::Update()
 
     PlayerInput();
 
+    DetermineAnimationState();
     animator.UpdateFrame();
 }
 
@@ -59,26 +61,17 @@ void Player::PlayerInput()
     // Movement
     if (IsKeyDown(KEY_D))
     {
-        if (!animator.IsPlaying("runRight"))
-        {
-            animator.PlayAnimation("runRight");
-        }
-        position.x += moveSpeed * GetFrameTime();
+        lastInputKey = KEY_D;
+        currentMoveSpeed = moveSpeed;
     }
     else if (IsKeyDown(KEY_A))
     {
-        if (!animator.IsPlaying("runLeft"))
-        {
-            animator.PlayAnimation("runLeft");
-        }
-        position.x -= moveSpeed * GetFrameTime();
+        lastInputKey = KEY_A;
+        currentMoveSpeed = moveSpeed * -1;
     }
     else
     {
-        if (!animator.IsPlaying("idleRight"))
-        {
-            animator.PlayAnimation("idleRight");
-        }
+        currentMoveSpeed = 0;
     }
 
     // Jump
@@ -94,12 +87,53 @@ bool Player::IsGrounded() const
     return position.y <= Game::GroundHeight;
 }
 
+void Player::DetermineAnimationState()
+{
+    if (currentMoveSpeed == 0)
+    {
+        switch (lastInputKey)
+        {
+            case KEY_D:
+                if (!animator.IsPlaying("idleRight"))
+                {
+                    animator.PlayAnimation("idleRight");
+                    return;
+                }
+                break;
+            case KEY_A:
+                if (!animator.IsPlaying("idleLeft"))
+                {
+                    animator.PlayAnimation("idleLeft");
+                    return;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    else if (currentMoveSpeed > 0)
+    {
+        if (!animator.IsPlaying("runRight"))
+        {
+            animator.PlayAnimation("runRight");
+        }
+    }
+    else if (currentMoveSpeed < 0)
+    {
+        if (!animator.IsPlaying("runLeft"))
+        {
+            animator.PlayAnimation("runLeft");
+        }
+    }
+}
+
 // ************************ Draw Functions ************************ //
 
 void Player::Draw() const
 {
 #ifdef GAME_DEBUG
     DrawCircleV(position, 1, YELLOW);
+    DrawInspector();
 #endif
 
     // Offset the sprite so it's drawn from the bottom
@@ -107,4 +141,11 @@ void Player::Draw() const
     animator.DrawAnim(spriteOffset);
 }
 
+void Player::DrawInspector() const
+{
+    DrawRectangle(10, 10, 300, 100, BLACK);
+    DrawText(("Move Speed: " + std::to_string(moveSpeed)).c_str(), 12, 12, 10, RED);
+    DrawText(("Gravity: " + std::to_string(gravity)).c_str(), 12, 22, 10, RED);
+    DrawText(("Jump Force: " + std::to_string(jumpForce)).c_str(), 12, 32, 10, RED);
+}
 

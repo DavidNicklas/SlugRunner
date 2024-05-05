@@ -74,12 +74,17 @@ void AnimationHandler::PlayAnimation(const std::string& name)
 {
     if (animationMap.find(name) != animationMap.end())
     {
-        currentAnimation = animationMap[name];
+        if (currentAnimation.name != name) currentAnimation = animationMap[name];
     }
     else
     {
         std::cerr << "Animation with name " << name << " not found!" << std::endl;
     }
+}
+
+bool AnimationHandler::IsPlaying(std::string name) const
+{
+    return currentAnimation.name == name;
 }
 
 // ************************ Update Functions ************************ //
@@ -96,7 +101,3 @@ void AnimationHandler::DrawAnim(Vector2 position) const
     currentAnimation.DrawCurrentFrame(position);
 }
 
-bool AnimationHandler::IsPlaying(std::string name) const
-{
-    return currentAnimation.name == name;
-}
