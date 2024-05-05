@@ -6,6 +6,8 @@ Player::Player()
 {
     idleTexLeft = LoadTexture("assets/graphics/Character/EliShane_IdleL.png");
     idleTexRight = LoadTexture("assets/graphics/Character/EliShane_IdleR.png");
+    runTexRight = LoadTexture("assets/graphics/Character/EliShane_RunR.png");
+    runTexLeft = LoadTexture("assets/graphics/Character/EliShane_RunL.png");
 
     position = {100, Game::GroundHeight};
     velocityY = 0;
@@ -16,6 +18,8 @@ Player::Player()
     // Add all the animations to the animator
     animator.CreateAnimation(idleTexRight, 2, 0.3, "idleRight");
     animator.CreateAnimation(idleTexLeft, 2, 0.3, "idleLeft");
+    animator.CreateAnimation(runTexRight, 8, 0.1, "runRight");
+    animator.CreateAnimation(runTexLeft, 8, 0.1, "runLeft");
 
     // Play the idle animation at the start of the game
     animator.PlayAnimation("idleRight");
@@ -55,19 +59,26 @@ void Player::PlayerInput()
     // Movement
     if (IsKeyDown(KEY_D))
     {
-        if (!animator.IsPlaying("idleRight"))
+        if (!animator.IsPlaying("runRight"))
         {
-            animator.PlayAnimation("idleRight");
+            animator.PlayAnimation("runRight");
         }
         position.x += moveSpeed * GetFrameTime();
     }
     else if (IsKeyDown(KEY_A))
     {
-        if (!animator.IsPlaying("idleLeft"))
+        if (!animator.IsPlaying("runLeft"))
         {
-            animator.PlayAnimation("idleLeft");
+            animator.PlayAnimation("runLeft");
         }
         position.x -= moveSpeed * GetFrameTime();
+    }
+    else
+    {
+        if (!animator.IsPlaying("idleRight"))
+        {
+            animator.PlayAnimation("idleRight");
+        }
     }
 
     // Jump

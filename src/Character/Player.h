@@ -31,4 +31,6 @@ private:
 
     Texture2D idleTexLeft;
     Texture2D idleTexRight;
+    Texture2D runTexRight;
+    Texture2D runTexLeft;
 };
